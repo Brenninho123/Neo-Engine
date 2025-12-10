@@ -213,7 +213,6 @@ class MainMenuState extends MusicBeatState
 								}});
 								FlxTween.tween(spr, {alpha: 0}, 1.3, {ease: FlxEase.backInOut, type: ONESHOT, onComplete: function(twn:FlxTween){
 									spr.kill(); /*Mom I killed the sprs again*/
-								}});
 							{
 								menuItems.members[i].kill();
 							}
