@@ -22,16 +22,7 @@ class MainMenuState extends MusicBeatState
 		'mods',
 		#end
 		
-		#if ACHIEVEMENTS_ALLOWED
-		'awards',
-		#end
-		
 		'credits',
-		
-		#if !switch
-		'donate',
-		#end
-		
 		'options'
 	];
 
@@ -217,9 +208,12 @@ class MainMenuState extends MusicBeatState
 					{
 						if (i == curSelected)
 							continue;
-						FlxTween.tween(menuItems.members[i], {alpha: 0}, 0.4, {
-							ease: FlxEase.quadOut,
-							onComplete: function(twn:FlxTween)
+								FlxTween.tween(spr, {x: 1200}, 2, {ease: FlxEase.backInOut, type: ONESHOT, onComplete: function(twn:FlxTween) {
+									spr.kill(); /*Mom I killed the sprs again*/
+								}});
+								FlxTween.tween(spr, {alpha: 0}, 1.3, {ease: FlxEase.backInOut, type: ONESHOT, onComplete: function(twn:FlxTween){
+									spr.kill(); /*Mom I killed the sprs again*/
+								}});
 							{
 								menuItems.members[i].kill();
 							}
@@ -259,11 +253,6 @@ class MainMenuState extends MusicBeatState
 							#if MODS_ALLOWED
 							case 'mods':
 								MusicBeatState.switchState(new ModsMenuState());
-							#end
-
-							#if ACHIEVEMENTS_ALLOWED
-							case 'awards':
-								MusicBeatState.switchState(new AchievementsMenuState());
 							#end
 
 							case 'credits':
