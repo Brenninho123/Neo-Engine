@@ -93,6 +93,7 @@ class MainMenuState extends MusicBeatState
 				scr = 0;
 			menuItem.scrollFactor.set(0, scr);
 			menuItem.updateHitbox();
+			menuItem.x = 95;
 			//menuItem.screenCenter(X);
 		}
 
@@ -210,7 +211,7 @@ class MainMenuState extends MusicBeatState
 							continue;
 								FlxTween.tween(spr, {x: 1200}, 2, {ease: FlxEase.backInOut, type: ONESHOT, onComplete: function(twn:FlxTween) {
 									spr.kill(); /*Mom I killed the sprs again*/
-								}});
+
 								FlxTween.tween(spr, {alpha: 0}, 1.3, {ease: FlxEase.backInOut, type: ONESHOT, onComplete: function(twn:FlxTween){
 									spr.kill(); /*Mom I killed the sprs again*/
 							{
