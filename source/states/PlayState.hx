@@ -560,7 +560,7 @@ class PlayState extends MusicBeatState
 		uiGroup.add(iconP2);
 
 		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.ORANGE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
@@ -1148,9 +1148,9 @@ class PlayState extends MusicBeatState
 			str += ' (${percent}%) - ${ratingFC}';
 		}
 
-		var tempScore:String = 'Score: ${songScore}'
-		+ (!instakillOnMiss ? ' | Misses: ${songMisses}' : "")
-		+ ' | Rating: ${str}';
+		var tempScore:String = 'Score -> ${songScore}'
+		+ (!instakillOnMiss ? ' Misses -> ${songMisses}' : "")
+		+ ' Rating -> ${str}';
 		// "tempScore" variable is used to prevent another memory leak, just in case
 		// "\n" here prevents the text from being cut off by beat zooms
 		scoreTxt.text = '${tempScore}\n';
@@ -1188,8 +1188,8 @@ class PlayState extends MusicBeatState
 		if(scoreTxtTween != null)
 			scoreTxtTween.cancel();
 
-		scoreTxt.scale.x = 1.075;
-		scoreTxt.scale.y = 1.075;
+		scoreTxt.scale.x = 1.025;
+		scoreTxt.scale.y = 1.033;
 		scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
 			onComplete: function(twn:FlxTween) {
 				scoreTxtTween = null;
