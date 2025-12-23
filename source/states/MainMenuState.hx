@@ -99,7 +99,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxTween.tween(cameraGame, {zoom: 1}, 1.1, {ease: FlxEase.expoInOut});
 
-		var psychVer:FlxText = new FlxText(12, FlxG.height - 44, 0, "Orange Engine v" + orangeEngineVersion, 12);
+		var psychVer:FlxText = new FlxText(12, FlxG.height - 44, 0, "Neo Engine v" + orangeEngineVersion, 12);
 		psychVer.scrollFactor.set();
 		psychVer.setFormat("VCR OSD Mono", 16, FlxColor.ORANGE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(psychVer);
