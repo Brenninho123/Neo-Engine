@@ -9,7 +9,7 @@ import options.OptionsState;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var orangeEngineVersion:String = '0.0.1'; // This is also used for Discord RPC
+	public static var psychEngineVersion:String = '0.0.1'; // This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -21,12 +21,9 @@ class MainMenuState extends MusicBeatState
 		#if MODS_ALLOWED
 		'mods',
 		#end
-		
-		'credits',
+	
 		'options'
 	];
-
-	private var cameraGame:FlxCamera;
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -42,11 +39,6 @@ class MainMenuState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
-
-		cameraGame = new FlxCamera();
-
-		FlxG.cameras.reset(cameraGame);
-		FlxG.cameras.setDefaultDrawTarget(cameraGame, true);
 
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
@@ -93,19 +85,16 @@ class MainMenuState extends MusicBeatState
 				scr = 0;
 			menuItem.scrollFactor.set(0, scr);
 			menuItem.updateHitbox();
-			menuItem.x = 95;
-			//menuItem.screenCenter(X);
+			menuItem.screenCenter(X);
 		}
 
-		FlxTween.tween(cameraGame, {zoom: 1}, 1.1, {ease: FlxEase.expoInOut});
-
-		var psychVer:FlxText = new FlxText(12, FlxG.height - 44, 0, "Neo Engine v" + orangeEngineVersion, 12);
+		var psychVer:FlxText = new FlxText(12, FlxG.height - 44, 0, "Neo Engine v" + psychEngineVersion, 12);
 		psychVer.scrollFactor.set();
-		psychVer.setFormat("VCR OSD Mono", 16, FlxColor.ORANGE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		psychVer.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(psychVer);
 		var fnfVer:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
 		fnfVer.scrollFactor.set();
-		fnfVer.setFormat("VCR OSD Mono", 16, FlxColor.ORANGE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		fnfVer.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(fnfVer);
 		changeItem();
 
@@ -126,7 +115,7 @@ class MainMenuState extends MusicBeatState
 
 		super.create();
 
-		//FlxG.camera.follow(camFollow, null, 9);
+		FlxG.camera.follow(camFollow, null, 9);
 	}
 
 	var selectedSomethin:Bool = false;
@@ -170,8 +159,6 @@ class MainMenuState extends MusicBeatState
 					if (ClientPrefs.data.flashing)
 						FlxFlicker.flicker(magenta, 1.1, 0.15, false);
 
-					FlxTween.tween(cameraGame, {zoom: 10}, 1.6, {ease: FlxEase.expoIn});
-
 					FlxFlicker.flicker(menuItems.members[curSelected], 1, 0.06, false, false, function(flick:FlxFlicker)
 					{
 						switch (optionShit[curSelected])
@@ -209,8 +196,9 @@ class MainMenuState extends MusicBeatState
 					{
 						if (i == curSelected)
 							continue;
-								FlxTween.tween(spr, {x: 1200}, 2, {ease: FlxEase.backInOut, type: ONESHOT, onComplete: function(twn:FlxTween) {
-									spr.kill();
+						FlxTween.tween(menuItems.members[i], {alpha: 0}, 0.4, {
+							ease: FlxEase.quadOut,
+							onComplete: function(twn:FlxTween)
 							{
 								menuItems.members[i].kill();
 							}
@@ -250,6 +238,11 @@ class MainMenuState extends MusicBeatState
 							#if MODS_ALLOWED
 							case 'mods':
 								MusicBeatState.switchState(new ModsMenuState());
+							#end
+
+							#if ACHIEVEMENTS_ALLOWED
+							case 'awards':
+								MusicBeatState.switchState(new AchievementsMenuState());
 							#end
 
 							case 'credits':
@@ -296,7 +289,7 @@ class MainMenuState extends MusicBeatState
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 		menuItems.members[curSelected].animation.play('idle');
 		menuItems.members[curSelected].updateHitbox();
-		//menuItems.members[curSelected].screenCenter(X);
+		menuItems.members[curSelected].screenCenter(X);
 
 		curSelected += huh;
 
@@ -307,7 +300,7 @@ class MainMenuState extends MusicBeatState
 
 		menuItems.members[curSelected].animation.play('selected');
 		menuItems.members[curSelected].centerOffsets();
-		//menuItems.members[curSelected].screenCenter(X);
+		menuItems.members[curSelected].screenCenter(X);
 
 		camFollow.setPosition(menuItems.members[curSelected].getGraphicMidpoint().x,
 			menuItems.members[curSelected].getGraphicMidpoint().y - (menuItems.length > 4 ? menuItems.length * 8 : 0));
